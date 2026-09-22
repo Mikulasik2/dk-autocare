@@ -115,6 +115,15 @@ button { font-family: inherit; }
   border-bottom: 1px solid transparent;
   transition: border-color var(--transition), background var(--transition);
 }
+/* v0.21 fix: backdrop-filter creates a new containing block for
+   position:fixed descendants, which was breaking the full-screen mobile
+   nav overlay (it was sizing itself against the 72px header instead of
+   the viewport). Dropping the blur only while the mobile menu is open
+   fixes this with no visible effect, since the header bar itself is
+   covered by the (now fully opaque) menu panel anyway. */
+.site-header.menu-open {
+  backdrop-filter: none;
+}
 .site-header.scrolled {
   border-bottom-color: var(--border);
   background: rgba(6, 7, 10, 0.95);
@@ -186,6 +195,8 @@ button { font-family: inherit; }
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   cursor: pointer;
+  position: relative;
+  z-index: 160; /* stay above .main-nav (z-index: 150) so the close (X) icon is always visible/clickable */
 }
 .hamburger span {
   display: block;
@@ -203,8 +214,12 @@ button { font-family: inherit; }
   .main-nav {
     position: fixed;
     inset: var(--header-h) 0 0 0;
-    background: rgba(6, 7, 10, 0.98);
-    backdrop-filter: blur(14px);
+    z-index: 150; /* above all page content, including hero glow/buttons */
+    /* Fully solid background (no alpha) so hero content can never show
+       through on phones where backdrop-filter isn't supported/rendered. */
+    background: var(--bg);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
@@ -235,6 +250,12 @@ button { font-family: inherit; }
     margin-top: 12px;
     width: 100%;
   }
+}
+
+/* While the mobile menu is open, lock background scrolling
+   (class toggled on <body> by js/script.js). */
+body.nav-open {
+  overflow: hidden;
 }
 
 @media (min-width: 900px) {

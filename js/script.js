@@ -32,12 +32,20 @@ document.addEventListener('DOMContentLoaded', () => {
     hamburger.classList.remove('open');
     mainNav.classList.remove('open');
     hamburger.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('nav-open'); // re-enable background scroll
+    header.classList.remove('menu-open'); // restore header's backdrop blur
   }
 
   function toggleMenu() {
     const isOpen = mainNav.classList.toggle('open');
     hamburger.classList.toggle('open', isOpen);
     hamburger.setAttribute('aria-expanded', String(isOpen));
+    // Prevent the hero/page behind the menu from scrolling while it's open
+    document.body.classList.toggle('nav-open', isOpen);
+    // Drop the header's backdrop-filter while open (see CSS comment on
+    // .site-header.menu-open) so the fixed nav positions against the
+    // viewport, not the header.
+    header.classList.toggle('menu-open', isOpen);
   }
 
   if (hamburger && mainNav) {
