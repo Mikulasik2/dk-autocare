@@ -9,7 +9,6 @@ svetlomety-01.jpg     -> Leštenie svetlometov
 diagnostika-01.jpg    -> Diagnostika
 radio-01.jpg          -> Android rádio
 kamera-01.jpg         -> Cúvacia kamera
-servis-01.jpg         -> Servis vozidiel
 
 AKO PRIDAŤ REÁLNU FOTKU (v index.html, sekcia #galeria):
 

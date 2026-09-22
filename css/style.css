@@ -413,9 +413,32 @@ body.nav-open {
   margin-bottom: 14px;
 }
 .hero-services-line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  row-gap: 10px;
+  column-gap: 10px;
   color: var(--muted);
   font-size: 0.98rem;
   margin-bottom: 36px;
+}
+.hero-service-item {
+  white-space: nowrap; /* keep each service name on one line while the list itself wraps */
+}
+.hero-service-dot {
+  color: var(--blue-light);
+}
+
+@media (max-width: 640px) {
+  /* Let the list wrap into comfortable 2-3 centered lines instead of
+     shrinking the font to force everything onto one line. */
+  .hero-services-line {
+    font-size: 0.92rem;
+    row-gap: 12px;
+    column-gap: 8px;
+    padding: 0 8px;
+  }
 }
 .hero-actions {
   display: flex;
