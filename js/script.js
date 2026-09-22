@@ -95,4 +95,62 @@ document.addEventListener('DOMContentLoaded', () => {
   // If IntersectionObserver isn't supported, elements simply stay visible
   // (no .reveal-init class added), which is the safe default.
 
+  /* ---------- Gallery lightbox (prepared for future real photos) ----------
+     A gallery card only becomes clickable once it actually contains an
+     <img> (i.e. once a real photo has been added, see
+     assets/images/gallery/README.txt). Placeholder cards with just an
+     emoji icon are left exactly as they are - no click behaviour, no
+     broken images. */
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImage = document.getElementById('lightbox-image');
+  const lightboxCaption = document.getElementById('lightbox-caption');
+  let lastFocusedEl = null;
+
+  function openLightbox(imgEl, captionText) {
+    if (!lightbox || !lightboxImage) return;
+    lastFocusedEl = document.activeElement;
+    lightboxImage.src = imgEl.currentSrc || imgEl.src;
+    lightboxImage.alt = imgEl.alt || '';
+    if (lightboxCaption) lightboxCaption.textContent = captionText || '';
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+    lightbox.querySelector('.lightbox-close').focus();
+  }
+
+  function closeLightbox() {
+    if (!lightbox) return;
+    lightbox.hidden = true;
+    lightboxImage.src = '';
+    document.body.style.overflow = '';
+    if (lastFocusedEl) lastFocusedEl.focus();
+  }
+
+  if (lightbox) {
+    lightbox.querySelectorAll('[data-lightbox-close]').forEach((el) => {
+      el.addEventListener('click', closeLightbox);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !lightbox.hidden) closeLightbox();
+    });
+  }
+
+  document.querySelectorAll('.gallery-card').forEach((card) => {
+    const img = card.querySelector('.gallery-media img');
+    if (!img) return; // still a placeholder - stays inactive
+
+    card.classList.add('has-photo');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+    const caption = card.querySelector('figcaption');
+    const captionText = caption ? caption.textContent : '';
+
+    card.addEventListener('click', () => openLightbox(img, captionText));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openLightbox(img, captionText);
+      }
+    });
+  });
+
 });

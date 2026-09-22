@@ -24,7 +24,7 @@
   --radius: 14px;
   --radius-sm: 8px;
 
-  --font-display: 'Orbitron', 'Inter', sans-serif;
+  --font-display: 'Montserrat', 'Inter', sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
 
   --header-h: 72px;
@@ -419,6 +419,10 @@ section { padding: 90px 0; position: relative; }
 @media (min-width: 1000px) {
   .services-grid { grid-template-columns: repeat(3, 1fr); }
 }
+@media (min-width: 1280px) {
+  /* 8 cards sit evenly as 4x2 on wide desktop screens */
+  .services-grid { grid-template-columns: repeat(4, 1fr); }
+}
 
 .service-card {
   background: var(--surface);
@@ -577,6 +581,76 @@ section { padding: 90px 0; position: relative; }
   border-top: 1px solid var(--border);
 }
 
+/* ---------- Gallery lightbox (prepared for real photos) ---------- */
+.gallery-card.has-photo { cursor: pointer; }
+.gallery-card.has-photo .gallery-media { position: relative; }
+.gallery-card.has-photo:focus-visible { outline: 2px solid var(--blue-light); outline-offset: 3px; }
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.lightbox[hidden] { display: none; }
+
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 5, 8, 0.9);
+  backdrop-filter: blur(4px);
+}
+
+.lightbox-dialog {
+  position: relative;
+  z-index: 1;
+  max-width: min(900px, 92vw);
+  max-height: 88vh;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-card);
+}
+
+.lightbox-image {
+  width: 100%;
+  max-height: 76vh;
+  object-fit: contain;
+  background: #000;
+}
+
+.lightbox-caption {
+  padding: 14px 20px;
+  color: var(--text);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: rgba(6,7,10,0.8);
+  color: var(--text);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: border-color var(--transition), color var(--transition);
+}
+.lightbox-close:hover { border-color: var(--blue-light); color: var(--blue-light); }
+
 /* ---------- Contact ---------- */
 .contact-inner {
   display: grid;
@@ -616,27 +690,55 @@ section { padding: 90px 0; position: relative; }
 .contact-icon svg { width: 20px; height: 20px; }
 
 .contact-map {
-  min-height: 280px;
+  position: relative;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
   border-radius: var(--radius);
   border: 1px solid var(--border);
   background: var(--surface);
   overflow: hidden;
 }
-.map-placeholder {
-  height: 100%;
-  min-height: 280px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  color: var(--muted);
-  text-align: center;
-  padding: 32px;
+
+.map-embed {
+  flex: 1;
+  width: 100%;
+  min-height: 220px;
+  display: block;
+  /* Dark-mode the light Google Maps basemap to match the site's dark theme
+     (invert + hue-rotate is the standard trick to keep map colors natural) */
+  filter: invert(90%) hue-rotate(180deg) brightness(0.95) contrast(0.9);
 }
-.map-placeholder-icon { width: 40px; height: 40px; color: var(--blue-light); margin-bottom: 6px; }
-.map-placeholder p { font-weight: 600; color: var(--text); }
-.map-placeholder span { font-size: 0.85rem; }
+
+.map-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  background: var(--surface-2);
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.map-card-text {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.map-card-icon {
+  width: 42px; height: 42px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: rgba(30,111,255,0.12);
+  border: 1px solid rgba(79,163,255,0.3);
+  color: var(--blue-light);
+}
+.map-card-icon svg { width: 20px; height: 20px; }
+.map-card-text div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.map-card-text strong { color: var(--text); font-size: 0.95rem; }
+.map-card-text span { color: var(--muted); font-size: 0.85rem; }
 
 /* ---------- Footer ---------- */
 .site-footer {
