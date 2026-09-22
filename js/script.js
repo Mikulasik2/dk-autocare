@@ -24,41 +24,62 @@ document.addEventListener('DOMContentLoaded', () => {
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  /* ---------- Mobile hamburger menu ---------- */
+  /* ---------- Mobile fullscreen menu (v0.22 rebuild) ----------
+     #mobile-menu is a standalone overlay living directly under <body>
+     (see index.html) - completely independent from .site-header and its
+     backdrop-filter, which was the root cause of the previous version's
+     "hero visible through menu" bug. */
   const hamburger = document.getElementById('hamburger');
-  const mainNav = document.getElementById('main-nav');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+  function openMenu() {
+    mobileMenu.hidden = false;
+    // Force layout so the browser registers the un-hidden state before
+    // the opacity/transform transition starts (otherwise it can skip it).
+    void mobileMenu.offsetHeight;
+    mobileMenu.classList.add('open');
+    hamburger.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('nav-open'); // lock background scroll
+  }
 
   function closeMenu() {
+    mobileMenu.classList.remove('open');
     hamburger.classList.remove('open');
-    mainNav.classList.remove('open');
     hamburger.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('nav-open'); // re-enable background scroll
-    header.classList.remove('menu-open'); // restore header's backdrop blur
+    // Wait for the closing transition to finish before fully hiding
+    // (hidden removes it from the accessibility tree / tab order).
+    window.setTimeout(() => {
+      if (!mobileMenu.classList.contains('open')) mobileMenu.hidden = true;
+    }, 300);
   }
 
   function toggleMenu() {
-    const isOpen = mainNav.classList.toggle('open');
-    hamburger.classList.toggle('open', isOpen);
-    hamburger.setAttribute('aria-expanded', String(isOpen));
-    // Prevent the hero/page behind the menu from scrolling while it's open
-    document.body.classList.toggle('nav-open', isOpen);
-    // Drop the header's backdrop-filter while open (see CSS comment on
-    // .site-header.menu-open) so the fixed nav positions against the
-    // viewport, not the header.
-    header.classList.toggle('menu-open', isOpen);
+    if (mobileMenu.classList.contains('open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   }
 
-  if (hamburger && mainNav) {
+  if (hamburger && mobileMenu) {
     hamburger.addEventListener('click', toggleMenu);
 
-    // Close menu after clicking a nav link (mobile)
-    mainNav.querySelectorAll('.nav-link').forEach((link) => {
+    if (mobileMenuClose) {
+      mobileMenuClose.addEventListener('click', closeMenu);
+    }
+
+    // Close menu after clicking a nav link or the "Zavolať" button, then
+    // let the normal smooth-scroll handler (below) take over for anchors.
+    mobileMenu.querySelectorAll('.mobile-nav-link, .mobile-menu-cta').forEach((link) => {
       link.addEventListener('click', closeMenu);
     });
 
     // Close menu on Escape key
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeMenu();
+      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMenu();
     });
   }
 

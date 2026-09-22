@@ -40,11 +40,40 @@
         <a href="tel:0903792605" class="btn btn-primary nav-cta">Zavolať</a>
       </nav>
 
-      <button class="hamburger" id="hamburger" aria-label="Otvoriť menu" aria-expanded="false" aria-controls="main-nav">
+      <button class="hamburger" id="hamburger" aria-label="Otvoriť menu" aria-expanded="false" aria-controls="mobile-menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </header>
+
+  <!-- ============ MOBILE MENU (fullscreen overlay, mobile only) ============
+       IMPORTANT: this is deliberately a direct child of <body>, OUTSIDE
+       .site-header. .site-header uses backdrop-filter, which (like filter/
+       transform/perspective) creates a new CSS containing block for any
+       position:fixed descendant - that was the root cause of v0.21's
+       overlay collapsing onto the header instead of covering the full
+       screen. Living outside the header, this overlay's containing block
+       is always the viewport. -->
+  <div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Navigácia" hidden>
+    <div class="mobile-menu-top">
+      <span class="mobile-menu-brand">
+        <span class="brand-mark">D&amp;K</span>
+        <span class="brand-name">Auto<span class="accent">CARE</span></span>
+      </span>
+      <button type="button" class="mobile-menu-close" id="mobile-menu-close" aria-label="Zavrieť menu">&times;</button>
+    </div>
+
+    <nav class="mobile-menu-nav" aria-label="Hlavná navigácia">
+      <ul>
+        <li><a href="#hero" class="mobile-nav-link">Domov</a></li>
+        <li><a href="#sluzby" class="mobile-nav-link">Služby</a></li>
+        <li><a href="#o-nas" class="mobile-nav-link">O nás</a></li>
+        <li><a href="#galeria" class="mobile-nav-link">Galéria</a></li>
+        <li><a href="#kontakt" class="mobile-nav-link">Kontakt</a></li>
+      </ul>
+      <a href="tel:0903792605" class="btn btn-primary btn-lg mobile-menu-cta">Zavolať</a>
+    </nav>
+  </div>
 
   <!-- ============ HERO ============ -->
   <section class="hero" id="hero">

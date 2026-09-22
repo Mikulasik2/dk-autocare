@@ -115,15 +115,6 @@ button { font-family: inherit; }
   border-bottom: 1px solid transparent;
   transition: border-color var(--transition), background var(--transition);
 }
-/* v0.21 fix: backdrop-filter creates a new containing block for
-   position:fixed descendants, which was breaking the full-screen mobile
-   nav overlay (it was sizing itself against the 72px header instead of
-   the viewport). Dropping the blur only while the mobile menu is open
-   fixes this with no visible effect, since the header bar itself is
-   covered by the (now fully opaque) menu panel anyway. */
-.site-header.menu-open {
-  backdrop-filter: none;
-}
 .site-header.scrolled {
   border-bottom-color: var(--border);
   background: rgba(6, 7, 10, 0.95);
@@ -196,7 +187,6 @@ button { font-family: inherit; }
   border-radius: var(--radius-sm);
   cursor: pointer;
   position: relative;
-  z-index: 160; /* stay above .main-nav (z-index: 150) so the close (X) icon is always visible/clickable */
 }
 .hamburger span {
   display: block;
@@ -211,45 +201,19 @@ button { font-family: inherit; }
 .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 @media (max-width: 899px) {
+  /* The inline header nav (.main-nav / .nav-link / .nav-cta) is desktop-only
+     content. On mobile it is replaced entirely by the standalone
+     #mobile-menu overlay below, so just hide it here - simpler and safer
+     than trying to repurpose it as an overlay (that approach is what broke
+     in v0.2/v0.21). */
   .main-nav {
-    position: fixed;
-    inset: var(--header-h) 0 0 0;
-    z-index: 150; /* above all page content, including hero glow/buttons */
-    /* Fully solid background (no alpha) so hero content can never show
-       through on phones where backdrop-filter isn't supported/rendered. */
-    background: var(--bg);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
-    padding: 32px 24px;
-    transform: translateY(-12px);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
-    gap: 24px;
+    display: none;
   }
-  .main-nav.open {
-    opacity: 1;
-    transform: translateY(0);
-    visibility: visible;
-  }
-  .main-nav ul {
-    flex-direction: column;
-    gap: 6px;
-  }
-  .nav-link {
-    display: block;
-    padding: 14px 4px;
-    font-size: 1.1rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-cta {
-    display: inline-flex;
-    margin-top: 12px;
-    width: 100%;
-  }
+}
+
+@media (min-width: 900px) {
+  .hamburger { display: none; }
+  .nav-cta { display: inline-flex; }
 }
 
 /* While the mobile menu is open, lock background scrolling
@@ -258,9 +222,107 @@ body.nav-open {
   overflow: hidden;
 }
 
+/* ---------- Mobile menu (v0.22 rebuild) ----------
+   A fullscreen overlay that lives OUTSIDE .site-header in the DOM (see
+   index.html), so it is never affected by the header's backdrop-filter
+   (which creates its own containing block for position:fixed descendants
+   and was the root cause of the v0.21 bug). This overlay's containing
+   block is always the viewport. Desktop is completely unaffected: the
+   whole block below is inside a max-width:899px query. */
+@media (max-width: 899px) {
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    background: var(--bg); /* fully solid - no alpha, no blur */
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 32px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12px);
+    transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .mobile-menu[hidden] {
+    display: flex; /* keep display:flex so the closing transition can run */
+  }
+  .mobile-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .mobile-menu-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+    flex-shrink: 0;
+  }
+  .mobile-menu-brand {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-family: var(--font-display);
+  }
+
+  .mobile-menu-close {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--silver-light);
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .mobile-menu-close:hover { border-color: var(--blue-light); color: var(--blue-light); }
+
+  .mobile-menu-nav {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    gap: 28px;
+    padding: 24px 4px;
+  }
+  .mobile-menu-nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .mobile-nav-link {
+    display: block;
+    padding: 16px 4px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    transition: color var(--transition);
+  }
+  .mobile-nav-link:hover,
+  .mobile-nav-link:focus-visible { color: var(--blue-light); }
+
+  .mobile-menu-cta {
+    width: 100%;
+  }
+}
+
 @media (min-width: 900px) {
-  .hamburger { display: none; }
-  .nav-cta { display: inline-flex; }
+  /* Overlay is mobile-only; keep it fully out of the way on desktop
+     regardless of any open/hidden state. */
+  .mobile-menu {
+    display: none !important;
+  }
 }
 
 /* ---------- Hero ---------- */
