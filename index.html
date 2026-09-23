@@ -25,14 +25,22 @@
   <header class="site-header" id="header">
     <div class="container header-inner">
       <a href="#hero" class="brand" aria-label="D&amp;K AutoCARE - domov">
-        <span class="brand-mark">D&amp;K</span>
-        <span class="brand-name">Auto<span class="accent">CARE</span></span>
+        <picture>
+          <source srcset="assets/images/logo/dk-autocare-logo.webp" type="image/webp">
+          <img
+            class="brand-logo"
+            src="assets/images/logo/dk-autocare-logo.png"
+            alt="D&amp;K AutoCARE"
+            width="1740"
+            height="796">
+        </picture>
       </a>
 
       <nav class="main-nav" id="main-nav">
         <ul>
           <li><a href="#hero" class="nav-link">Domov</a></li>
           <li><a href="#sluzby" class="nav-link">Služby</a></li>
+          <li><a href="#cennik" class="nav-link">Cenník</a></li>
           <li><a href="#o-nas" class="nav-link">O nás</a></li>
           <li><a href="#galeria" class="nav-link">Galéria</a></li>
           <li><a href="#kontakt" class="nav-link">Kontakt</a></li>
@@ -67,6 +75,7 @@
       <ul>
         <li><a href="#hero" class="mobile-nav-link">Domov</a></li>
         <li><a href="#sluzby" class="mobile-nav-link">Služby</a></li>
+        <li><a href="#cennik" class="mobile-nav-link">Cenník</a></li>
         <li><a href="#o-nas" class="mobile-nav-link">O nás</a></li>
         <li><a href="#galeria" class="mobile-nav-link">Galéria</a></li>
         <li><a href="#kontakt" class="mobile-nav-link">Kontakt</a></li>
@@ -199,6 +208,44 @@
       </div>
     </div>
   </section>
+
+  <!-- ============ CENNÍK / PRICING ============ -->
+  <section class="pricing" id="cennik">
+    <div class="container pricing-inner">
+      <p class="section-eyebrow">Cenník</p>
+      <h2 class="section-title">Cenník služieb</h2>
+      <p class="section-lead">Prehľad cien našich najžiadanejších služieb.</p>
+
+      <button type="button" class="pricing-figure" id="pricing-trigger" aria-haspopup="dialog" aria-label="Zväčšiť cenník služieb">
+        <picture>
+          <source srcset="assets/images/pricing/cennik-sluzieb.webp" type="image/webp">
+          <img
+            src="assets/images/pricing/cennik-sluzieb.jpg"
+            alt="Cenník služieb D&amp;K AutoCARE: kompletné tepovanie interiéru, čistenie interiéru a leštenie svetlometov s cenami podľa typu vozidla"
+            width="1024"
+            height="1536"
+            loading="lazy"
+            class="pricing-image">
+        </picture>
+        <span class="pricing-zoom-hint" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M11 8.5v5M8.5 11h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M16.2 16.2L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+      </button>
+      <p class="pricing-caption">Kliknutím zobrazíte cenník vo väčšom rozlíšení.</p>
+    </div>
+  </section>
+
+  <!-- ============ PRICING LIGHTBOX ============ -->
+  <div class="lightbox" id="pricing-lightbox" hidden>
+    <div class="lightbox-backdrop" data-pricing-lightbox-close></div>
+    <div class="lightbox-dialog pricing-lightbox-dialog" role="dialog" aria-modal="true" aria-label="Cenník služieb - zväčšený náhľad">
+      <button type="button" class="lightbox-close" data-pricing-lightbox-close aria-label="Zavrieť">&times;</button>
+      <picture>
+        <source srcset="assets/images/pricing/cennik-sluzieb.webp" type="image/webp">
+        <img src="assets/images/pricing/cennik-sluzieb.jpg" alt="Cenník služieb D&amp;K AutoCARE - zväčšený náhľad" class="lightbox-image pricing-lightbox-image">
+      </picture>
+    </div>
+  </div>
 
   <!-- ============ ABOUT / WHY US ============ -->
   <section class="about" id="o-nas">

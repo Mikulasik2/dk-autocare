@@ -182,4 +182,42 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  /* ---------- Pricing (Cenník) lightbox ----------
+     Self-contained, separate from the gallery lightbox above (own ids/
+     classes/state) so it can't interfere with it, and separate from the
+     v0.22 mobile menu's scroll-lock (that uses a body class; this one
+     mirrors the gallery lightbox's own inline-style approach so both
+     lightboxes behave identically). */
+  const pricingTrigger = document.getElementById('pricing-trigger');
+  const pricingLightbox = document.getElementById('pricing-lightbox');
+  let pricingLastFocusedEl = null;
+
+  function openPricingLightbox() {
+    if (!pricingLightbox) return;
+    pricingLastFocusedEl = document.activeElement;
+    pricingLightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+    const closeBtn = pricingLightbox.querySelector('.lightbox-close');
+    if (closeBtn) closeBtn.focus();
+  }
+
+  function closePricingLightbox() {
+    if (!pricingLightbox) return;
+    pricingLightbox.hidden = true;
+    document.body.style.overflow = '';
+    if (pricingLastFocusedEl) pricingLastFocusedEl.focus();
+  }
+
+  if (pricingTrigger && pricingLightbox) {
+    pricingTrigger.addEventListener('click', openPricingLightbox);
+
+    pricingLightbox.querySelectorAll('[data-pricing-lightbox-close]').forEach((el) => {
+      el.addEventListener('click', closePricingLightbox);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !pricingLightbox.hidden) closePricingLightbox();
+    });
+  }
+
 });
