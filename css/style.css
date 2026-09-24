@@ -661,11 +661,9 @@ section { padding: 90px 0; position: relative; }
 }
 /* Real before/after photos read best at max 2 columns, even on wide
    desktop screens - a 3rd column made the comparison images too small
-   to judge. Keep the single-item Diagnostika card centred so the odd
-   5th item doesn't look like a layout mistake. */
-@media (min-width: 640px) {
-  .gallery-card:last-child { grid-column: 1 / -1; max-width: 420px; margin: 0 auto; width: 100%; }
-}
+   to judge. With 6 cards (5 before/after + Diagnostika) the 2-column
+   grid now fills evenly in 3 full rows, so no special-casing of the
+   last item is needed any more. */
 
 .gallery-card {
   margin: 0;
@@ -690,6 +688,9 @@ section { padding: 90px 0; position: relative; }
 /* Diagnostika screenshot keeps its own (wider) ratio so nothing gets
    cropped out of the software window. */
 .diagnostika-card .gallery-media { aspect-ratio: 800 / 483; }
+/* Same idea for the oil/filter change photo - keeps its own ratio instead
+   of the standard 4:3 crop so nothing important is cut off. */
+.olej-card .gallery-media { aspect-ratio: 1400 / 934; }
 
 .gallery-card figcaption {
   padding: 14px 16px;
