@@ -221,9 +221,9 @@
           <source srcset="assets/images/pricing/cennik-sluzieb.webp" type="image/webp">
           <img
             src="assets/images/pricing/cennik-sluzieb.jpg"
-            alt="Cenník služieb D&amp;K AutoCARE: kompletné tepovanie interiéru, čistenie interiéru a leštenie svetlometov s cenami podľa typu vozidla"
-            width="1024"
-            height="1536"
+            alt="Cenník služieb D&amp;K AutoCARE: kompletné tepovanie interiéru, čistenie interiéru, leštenie svetlometov a výmena oleja a filtrov s cenami podľa typu vozidla"
+            width="733"
+            height="1100"
             loading="lazy"
             class="pricing-image">
         </picture>
@@ -242,7 +242,7 @@
       <button type="button" class="lightbox-close" data-pricing-lightbox-close aria-label="Zavrieť">&times;</button>
       <picture>
         <source srcset="assets/images/pricing/cennik-sluzieb.webp" type="image/webp">
-        <img src="assets/images/pricing/cennik-sluzieb.jpg" alt="Cenník služieb D&amp;K AutoCARE - zväčšený náhľad" class="lightbox-image pricing-lightbox-image">
+        <img src="assets/images/pricing/cennik-sluzieb.jpg" alt="Cenník služieb D&amp;K AutoCARE - zväčšený náhľad" width="733" height="1100" class="lightbox-image pricing-lightbox-image">
       </picture>
     </div>
   </div>
@@ -313,62 +313,178 @@
       <p class="section-eyebrow">Ukážky práce</p>
       <h2 class="section-title">Naše realizácie</h2>
       <p class="section-lead">
-        Galériu priebežne dopĺňame o reálne fotografie z našej práce. Nižšie sú pripravené kategórie,
-        do ktorých budú fotografie postupne pridané.
+        Reálne fotografie z našej práce. Potiahnutím deliacej čiary porovnáte stav vozidla pred a po zásahu.
       </p>
 
       <div class="gallery-grid">
-        <!--
-          PLACEHOLDER GALÉRIA (pripravená na reálne fotky + lightbox):
-          Každá karta nižšie predstavuje jednu kategóriu služby.
-          Návod na pridanie reálnej fotografie: assets/images/gallery/README.txt
 
-          V skratke: do .gallery-media vlož <img src="assets/images/gallery/nazov.jpg" alt="...">
-          namiesto emoji placeholderu. Skript (js/script.js) automaticky rozpozná
-          fotku a kliknutím ju zobrazí zväčšenú v lightboxe - funkcionalita je
-          v kóde pripravená, ale kým karta obsahuje len emoji, zostáva neaktívna.
-        -->
-        <figure class="gallery-card reveal" data-category="interier">
-          <div class="gallery-media gallery-placeholder placeholder-1">
-            <span class="gallery-placeholder-icon">🧼</span>
+        <!-- ============ BEFORE/AFTER: Čistenie interiéru ============ -->
+        <figure class="gallery-card ba-card reveal" data-category="interier">
+          <div class="ba-slider" data-ba-slider>
+            <div class="ba-frame" tabindex="0" role="slider" aria-label="Porovnanie pred a po - čistenie interiéru" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-orientation="horizontal">
+              <picture>
+                <source srcset="assets/images/gallery/interier-po.webp" type="image/webp">
+                <img
+                  class="ba-img ba-img-after"
+                  src="assets/images/gallery/interier-po.jpg"
+                  alt="Predné sedadlá a palubná doska po čistení interiéru"
+                  width="1179" height="1340"
+                  loading="lazy"
+                  draggable="false">
+              </picture>
+              <div class="ba-before-clip">
+                <picture>
+                  <source srcset="assets/images/gallery/interier-pred.webp" type="image/webp">
+                  <img
+                    class="ba-img ba-img-before"
+                    src="assets/images/gallery/interier-pred.jpg"
+                    alt="Predné sedadlá a palubná doska pred čistením interiéru"
+                    width="1178" height="1345"
+                    loading="lazy"
+                  draggable="false">
+                </picture>
+              </div>
+              <div class="ba-divider" aria-hidden="true">
+                <span class="ba-handle">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+              <span class="ba-tag ba-tag-before" aria-hidden="true">PRED</span>
+              <span class="ba-tag ba-tag-after" aria-hidden="true">PO</span>
+            </div>
           </div>
           <figcaption>Čistenie interiéru</figcaption>
         </figure>
 
-        <figure class="gallery-card reveal" data-category="tepovanie">
-          <div class="gallery-media gallery-placeholder placeholder-2">
-            <span class="gallery-placeholder-icon">💦</span>
+        <!-- ============ BEFORE/AFTER: Čistenie zadných sedadiel ============ -->
+        <figure class="gallery-card ba-card reveal" data-category="sedadla">
+          <div class="ba-slider" data-ba-slider>
+            <div class="ba-frame" tabindex="0" role="slider" aria-label="Porovnanie pred a po - čistenie zadných sedadiel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-orientation="horizontal">
+              <picture>
+                <source srcset="assets/images/gallery/sedadla-po.webp" type="image/webp">
+                <img
+                  class="ba-img ba-img-after"
+                  src="assets/images/gallery/sedadla-po.jpg"
+                  alt="Zadné sedadlá a podlaha po čistení"
+                  width="1179" height="1321"
+                  loading="lazy"
+                  draggable="false">
+              </picture>
+              <div class="ba-before-clip">
+                <picture>
+                  <source srcset="assets/images/gallery/sedadla-pred.webp" type="image/webp">
+                  <img
+                    class="ba-img ba-img-before"
+                    src="assets/images/gallery/sedadla-pred.jpg"
+                    alt="Zadné sedadlá a podlaha pred čistením"
+                    width="1179" height="1398"
+                    loading="lazy"
+                  draggable="false">
+                </picture>
+              </div>
+              <div class="ba-divider" aria-hidden="true">
+                <span class="ba-handle">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+              <span class="ba-tag ba-tag-before" aria-hidden="true">PRED</span>
+              <span class="ba-tag ba-tag-after" aria-hidden="true">PO</span>
+            </div>
           </div>
-          <figcaption>Tepovanie</figcaption>
+          <figcaption>Čistenie zadných sedadiel</figcaption>
         </figure>
 
-        <figure class="gallery-card reveal" data-category="svetlomety">
-          <div class="gallery-media gallery-placeholder placeholder-3">
-            <span class="gallery-placeholder-icon">💡</span>
+        <!-- ============ BEFORE/AFTER: Čistenie batožinového priestoru ============ -->
+        <figure class="gallery-card ba-card reveal" data-category="kufor">
+          <div class="ba-slider" data-ba-slider>
+            <div class="ba-frame" tabindex="0" role="slider" aria-label="Porovnanie pred a po - čistenie batožinového priestoru" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-orientation="horizontal">
+              <picture>
+                <source srcset="assets/images/gallery/kufor-po.webp" type="image/webp">
+                <img
+                  class="ba-img ba-img-after"
+                  src="assets/images/gallery/kufor-po.jpg"
+                  alt="Batožinový priestor po vyčistení"
+                  width="1179" height="1343"
+                  loading="lazy"
+                  draggable="false">
+              </picture>
+              <div class="ba-before-clip">
+                <picture>
+                  <source srcset="assets/images/gallery/kufor-pred.webp" type="image/webp">
+                  <img
+                    class="ba-img ba-img-before"
+                    src="assets/images/gallery/kufor-pred.jpg"
+                    alt="Batožinový priestor pred vyčistením"
+                    width="1179" height="1332"
+                    loading="lazy"
+                  draggable="false">
+                </picture>
+              </div>
+              <div class="ba-divider" aria-hidden="true">
+                <span class="ba-handle">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+              <span class="ba-tag ba-tag-before" aria-hidden="true">PRED</span>
+              <span class="ba-tag ba-tag-after" aria-hidden="true">PO</span>
+            </div>
           </div>
-          <figcaption>Leštenie svetlometov</figcaption>
+          <figcaption>Čistenie batožinového priestoru</figcaption>
         </figure>
 
-        <figure class="gallery-card reveal" data-category="radio">
-          <div class="gallery-media gallery-placeholder placeholder-4">
-            <span class="gallery-placeholder-icon">📻</span>
+        <!-- ============ BEFORE/AFTER: Montáž Android rádia ============ -->
+        <figure class="gallery-card ba-card reveal" data-category="radio">
+          <div class="ba-slider" data-ba-slider>
+            <div class="ba-frame" tabindex="0" role="slider" aria-label="Porovnanie pred a po - montáž Android rádia" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-orientation="horizontal">
+              <picture>
+                <source srcset="assets/images/gallery/android-radio-po.webp" type="image/webp">
+                <img
+                  class="ba-img ba-img-after"
+                  src="assets/images/gallery/android-radio-po.jpg"
+                  alt="Nové Android rádio po montáži"
+                  width="1179" height="995"
+                  loading="lazy"
+                  draggable="false">
+              </picture>
+              <div class="ba-before-clip">
+                <picture>
+                  <source srcset="assets/images/gallery/android-radio-pred.webp" type="image/webp">
+                  <img
+                    class="ba-img ba-img-before"
+                    src="assets/images/gallery/android-radio-pred.jpg"
+                    alt="Pôvodné rádio pred montážou Android rádia"
+                    width="1179" height="1125"
+                    loading="lazy"
+                  draggable="false">
+                </picture>
+              </div>
+              <div class="ba-divider" aria-hidden="true">
+                <span class="ba-handle">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+              <span class="ba-tag ba-tag-before" aria-hidden="true">PRED</span>
+              <span class="ba-tag ba-tag-after" aria-hidden="true">PO</span>
+            </div>
           </div>
-          <figcaption>Android rádio</figcaption>
+          <figcaption>Montáž Android rádia</figcaption>
         </figure>
 
-        <figure class="gallery-card reveal" data-category="kamera">
-          <div class="gallery-media gallery-placeholder placeholder-5">
-            <span class="gallery-placeholder-icon">📷</span>
+        <!-- ============ Diagnostika vozidla (samostatná realizácia, bez before/after) ============ -->
+        <figure class="gallery-card diagnostika-card reveal" data-category="diagnostika">
+          <div class="gallery-media">
+            <picture>
+              <source srcset="assets/images/gallery/diagnostika.webp" type="image/webp">
+              <img
+                src="assets/images/gallery/diagnostika.jpg"
+                alt="Počítačová diagnostika vozidla D&amp;K AutoCARE"
+                width="800" height="483"
+                loading="lazy">
+            </picture>
           </div>
-          <figcaption>Cúvacia kamera</figcaption>
+          <figcaption>Diagnostika vozidla</figcaption>
         </figure>
 
-        <figure class="gallery-card reveal" data-category="diagnostika">
-          <div class="gallery-media gallery-placeholder placeholder-6">
-            <span class="gallery-placeholder-icon">🔧</span>
-          </div>
-          <figcaption>Diagnostika</figcaption>
-        </figure>
       </div>
     </div>
   </section>

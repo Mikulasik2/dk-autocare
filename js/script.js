@@ -220,4 +220,77 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ---------- Before/After comparison sliders (Naše realizácie) ----------
+     Pointer Events implementation. Each .ba-frame is its own independent
+     interactive surface: position is always computed relative to THAT
+     frame's own getBoundingClientRect(), never the viewport or page, so
+     multiple sliders on the page never interfere with each other and the
+     divider can't "jump" to the wrong place. The result is written to the
+     --pos custom property on the surrounding .ba-slider, which both the
+     clip-path on the "before" photo and the divider/handle read from. */
+  document.querySelectorAll('[data-ba-slider]').forEach((slider) => {
+    const frame = slider.querySelector('.ba-frame');
+    if (!frame) return;
+
+    let dragging = false;
+
+    function percentFromClientX(clientX) {
+      const rect = frame.getBoundingClientRect();
+      const x = clientX - rect.left;
+      return Math.max(0, Math.min(100, (x / rect.width) * 100));
+    }
+
+    function setPercent(percent) {
+      slider.style.setProperty('--pos', percent + '%');
+      frame.setAttribute('aria-valuenow', String(Math.round(percent)));
+    }
+
+    function onPointerDown(e) {
+      // Only the primary mouse button / a single touch/pen contact starts a drag.
+      if (e.button !== undefined && e.button !== 0) return;
+      dragging = true;
+      frame.classList.add('dragging');
+      if (frame.setPointerCapture) {
+        try { frame.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+      }
+      setPercent(percentFromClientX(e.clientX));
+      e.preventDefault(); // stop native image/text drag & selection
+    }
+
+    function onPointerMove(e) {
+      if (!dragging) return;
+      setPercent(percentFromClientX(e.clientX));
+    }
+
+    function endDrag(e) {
+      if (!dragging) return;
+      dragging = false;
+      frame.classList.remove('dragging');
+      if (frame.releasePointerCapture && e.pointerId !== undefined) {
+        try { frame.releasePointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+      }
+    }
+
+    frame.addEventListener('pointerdown', onPointerDown);
+    frame.addEventListener('pointermove', onPointerMove);
+    frame.addEventListener('pointerup', endDrag);
+    frame.addEventListener('pointercancel', endDrag);
+
+    // Keyboard support (arrow keys / Home / End) since the range input is gone.
+    frame.addEventListener('keydown', (e) => {
+      const current = parseFloat(slider.style.getPropertyValue('--pos')) || 50;
+      let next = null;
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') next = Math.max(0, current - 5);
+      else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') next = Math.min(100, current + 5);
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = 100;
+      if (next === null) return;
+      e.preventDefault();
+      setPercent(next);
+    });
+
+    // Initial state matches the CSS default (50%) so nothing jumps on first interaction.
+    setPercent(50);
+  });
+
 });
